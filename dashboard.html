@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IneSoft RH - Mon espace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232F6BFF'/><text x='16' y='23' font-size='17' fill='white' text-anchor='middle' font-family='Arial' font-weight='bold'>i</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230E1116'/><text x='16' y='22' font-size='15' fill='%23C9A96A' text-anchor='middle' font-family='Arial' font-weight='bold'>iS</text></svg>">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="dashboard.html"><span class="logo">i</span><span>IneSoft RH<small>Portail collaborateur</small></span></a>
+  <a class="brand" href="dashboard.html"><span class="logo">iS</span><span>INESOFT<small>Ressources Humaines</small></span></a>
   <div class="spacer"></div>
   <span class="who" id="who"></span>
   <span class="badge badge-emp" id="roleBadge">employee</span>
@@ -19,27 +22,28 @@
 
 <div class="shell">
   <nav class="side">
-    <a class="active" href="dashboard.html"><span class="ic">&#127968;</span> Tableau de bord</a>
-    <a href="dashboard.html"><span class="ic">&#127958;</span> Mes conges</a>
-    <a href="dashboard.html"><span class="ic">&#128179;</span> Mes bulletins</a>
-    <a href="dashboard.html"><span class="ic">&#128100;</span> Mon profil</a>
-    <a class="admin" href="admin.html" id="adminLink"><span class="ic">&#128273;</span> Administration</a>
+    <a class="active" href="dashboard.html">Tableau de bord</a>
+    <a href="dashboard.html">Mes conges</a>
+    <a href="dashboard.html">Mes bulletins</a>
+    <a href="dashboard.html">Mon profil</a>
+    <a class="admin" href="admin.html" id="adminLink">Administration</a>
   </nav>
   <main class="main">
     <div class="hero">
       <span class="wave"></span>
-      <h2>Bonjour <span id="hi">collaborateur</span> &#128075;</h2>
-      <p>Ravi de vous revoir sur votre espace RH IneSoft. Voici votre resume du jour.</p>
+      <div class="eyebrow">Espace collaborateur</div>
+      <h2>Bonjour <b id="hi">collaborateur</b></h2>
+      <p>Bienvenue sur votre portail Ressources Humaines IneSoft. Voici votre resume du jour.</p>
     </div>
 
     <div class="grid">
-      <div class="card c-teal"><div class="ic-round">&#127958;</div><h3>Solde conges</h3><div class="big">18,5<span class="unit"> j</span></div></div>
-      <div class="card c-violet"><div class="ic-round">&#9203;</div><h3>RTT restants</h3><div class="big">6<span class="unit"> j</span></div></div>
-      <div class="card c-amber"><div class="ic-round">&#129534;</div><h3>Notes de frais</h3><div class="big">2<span class="unit"> en attente</span></div></div>
-      <div class="card c-coral"><div class="ic-round">&#128181;</div><h3>Prochaine paie</h3><div class="big">28<span class="unit"> aout</span></div></div>
+      <div class="card"><h3>Solde conges</h3><div class="big"><b>18,5</b><span class="unit"> jours</span></div></div>
+      <div class="card"><h3>RTT restants</h3><div class="big"><b>6</b><span class="unit"> jours</span></div></div>
+      <div class="card"><h3>Notes de frais</h3><div class="big"><b>2</b><span class="unit"> en attente</span></div></div>
+      <div class="card"><h3>Prochaine paie</h3><div class="big"><b>28</b><span class="unit"> aout</span></div></div>
     </div>
 
-    <h3 class="section-title">&#128179; Mes derniers bulletins</h3>
+    <h3 class="section-title">Mes derniers bulletins</h3>
     <table>
       <thead><tr><th>Periode</th><th>Type</th><th>Net a payer</th><th>Statut</th></tr></thead>
       <tbody>
@@ -50,7 +54,7 @@
     </table>
 
     <div class="notice" style="margin-top:22px">
-      &#128273; L'<b>Espace Administration</b> est reserve aux profils <b>admin</b>. Votre role actuel :
+      L'espace <b>Administration</b> est reserve aux profils <b>admin</b>. Votre role actuel :
       <b id="roleTxt">employee</b>. Acces refuse pour le moment.
     </div>
   </main>
