@@ -11,6 +11,9 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh;font-weight:400}
 a{color:inherit}
+/* pas de caret clignotant sur le texte non editable (ex: mode navigation au curseur du navigateur) */
+html{caret-color:transparent}
+input,textarea,select,[contenteditable]{caret-color:var(--ink)}
 
 /* ---------- Header ---------- */
 .topbar{background:var(--graphite);color:#EDECE8;padding:14px 28px;display:flex;align-items:center;gap:15px;
