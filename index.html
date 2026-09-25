@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IneSoft RH - Connexion</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232F6BFF'/><text x='16' y='23' font-size='17' fill='white' text-anchor='middle' font-family='Arial' font-weight='bold'>i</text></svg>">
+<!--
+  ============================================================
+  IneSoft RH - Portail collaborateur  (build interne)
+  ------------------------------------------------------------
+  Bravo, tu lis deja le code source. Premier reflexe de pentester. GG.
+  >>> IneCTF{la_source_ca_se_lit_frr}
+  ------------------------------------------------------------
+  TODO avant mise en prod (Ines, equipe dev) :
+   - RETIRER le fichier /robots.txt (il liste encore nos chemins internes)
+   - virer l'environnement de recette expose
+   - reactiver la verif de signature cote client (cf. app.min.js)
+  Note : l'auth "demo" de recette est encore active, a desactiver !!
+  ============================================================
+-->
+</head>
+<body>
+<div class="login-split">
+
+  <!-- Panneau vitrine -->
+  <section class="brand-panel">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <div class="bp-logo"><span class="logo">i</span> IneSoft</div>
+
+    <div class="mascot">
+      <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="70" cy="128" rx="40" ry="7" fill="rgba(0,0,0,.15)"/>
+        <rect x="30" y="34" width="80" height="80" rx="26" fill="#FFFFFF"/>
+        <rect x="30" y="34" width="80" height="80" rx="26" fill="url(#g1)" opacity=".12"/>
+        <circle cx="55" cy="66" r="8" fill="#1B2440"/>
+        <circle cx="85" cy="66" r="8" fill="#1B2440"/>
+        <circle cx="57.5" cy="63.5" r="2.6" fill="#fff"/>
+        <circle cx="87.5" cy="63.5" r="2.6" fill="#fff"/>
+        <circle cx="46" cy="82" r="6" fill="#FF6B5B" opacity=".55"/>
+        <circle cx="94" cy="82" r="6" fill="#FF6B5B" opacity=".55"/>
+        <path d="M56 86 q14 14 28 0" stroke="#1B2440" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <rect x="60" y="18" width="20" height="18" rx="6" fill="#FFB020"/>
+        <rect x="66" y="8" width="8" height="14" rx="4" fill="#FFB020"/>
+        <rect x="52" y="112" width="36" height="16" rx="8" fill="#FF6B5B"/>
+        <text x="70" y="124" font-size="9" fill="#fff" text-anchor="middle" font-family="Arial" font-weight="bold">RH</text>
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F6BFF"/><stop offset="1" stop-color="#FF6B5B"/></linearGradient></defs>
+      </svg>
+    </div>
+
+    <h1>Bienvenue sur votre espace RH</h1>
+    <p>Conges, bulletins de paie, administration du personnel. Tout IneSoft, au meme endroit.</p>
+
+    <div class="bp-foot">
+      <span>&#9889; Simple</span>
+      <span>&#128274; "Securise"</span>
+      <span>&#128153; Fait avec amour par IneSoft</span>
+    </div>
+  </section>
+
+  <!-- Formulaire -->
+  <section class="form-panel">
+    <div class="form-card">
+      <h2>Connexion</h2>
+      <p class="sub">Accedez a votre espace ressources humaines.</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="email">Adresse e-mail professionnelle</label>
+        <input type="email" id="email" placeholder="prenom.nom@inesoft.io" required>
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required>
+        <button class="btn" type="submit">Se connecter &#8594;</button>
+      </form>
+      <div id="msg" class="msg"></div>
+      <p class="foothint">IneSoft SAS &#183; Support RH : rh@inesoft.io</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="assets/js/app.min.js"></script>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var m = document.getElementById('msg');
+    var email = document.getElementById('email').value.trim().toLowerCase();
+    var pass  = document.getElementById('password').value;
+    try{
+      var ok = await window._ines.authenticate(email, pass);
+      if(ok){
+        m.className='msg ok'; m.textContent='Connexion reussie, redirection...';
+        setTimeout(function(){ location.href='dashboard.html'; }, 600);
+      }else{
+        m.className='msg err'; m.textContent='Identifiants invalides. Verifiez votre e-mail et mot de passe.';
+      }
+    }catch(err){
+      m.className='msg err'; m.textContent='Erreur d authentification.';
+    }
+  });
+</script>
+</body>
+</html>

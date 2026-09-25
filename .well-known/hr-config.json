@@ -1,0 +1,18 @@
+{
+  "_comment": "IneSoft RH - configuration environnement de RECETTE (staging). NE PAS DEPLOYER EN PROD.",
+  "app": "inesoft-rh-portal",
+  "env": "staging",
+  "version": "2.6.0",
+  "api": {
+    "mode": "client-side-mock",
+    "note": "l'auth et la verif de token sont faites cote client dans app.min.js (build de recette)"
+  },
+  "flag_recette": "IneCTF{config_en_prod_oupsi}",
+  "demo_account": {
+    "_note": "compte de demonstration laisse actif pour les tests RH. Mot de passe encode en base64 (securite++ lol).",
+    "email": "demo.rh@inesoft.io",
+    "password_b64": "QmllbnZlbnVlMjAyNiNSSA==",
+    "role": "employee"
+  },
+  "hint": "Pour passer employee -> admin, tout se joue dans le JWT stocke apres connexion (localStorage: ines_tk). Regarde comment app.min.js VERIFIE le token..."
+}

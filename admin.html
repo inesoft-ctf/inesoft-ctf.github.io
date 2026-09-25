@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IneSoft RH - Administration</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232F6BFF'/><text x='16' y='23' font-size='17' fill='white' text-anchor='middle' font-family='Arial' font-weight='bold'>i</text></svg>">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="dashboard.html"><span class="logo">i</span><span>IneSoft RH<small>Console Administration</small></span></a>
+  <div class="spacer"></div>
+  <span class="who" id="who"></span>
+  <span class="badge badge-adm" id="roleBadge">admin</span>
+  <div class="avatar" id="avatar">A</div>
+  <button class="btn btn-soft" onclick="window._ines.logout();location.href='index.html'">Deconnexion</button>
+</header>
+
+<div class="shell">
+  <nav class="side">
+    <a href="dashboard.html"><span class="ic">&#127968;</span> Tableau de bord</a>
+    <a class="admin active" href="admin.html"><span class="ic">&#128273;</span> Administration</a>
+    <a href="admin.html"><span class="ic">&#128101;</span> Collaborateurs</a>
+    <a href="admin.html"><span class="ic">&#128274;</span> Coffre-fort paie</a>
+  </nav>
+  <main class="main" id="main">
+    <p>Chargement...</p>
+  </main>
+</div>
+
+<script src="assets/js/app.min.js"></script>
+<script>
+/* Coffre-fort RH : export de paie chiffre AES-256-CBC.
+   Cle derivee par PBKDF2-HMAC-SHA256 (100000 iterations) a partir d'une phrase secrete.
+   blob = base64( salt[16] | iv[16] | ciphertext ) */
+var VAULT_BLOB = "JHqObE1R2fqWqmWcOi1nok2wb4Q1dEJoBWECPCTxFuNrbMZIM0o4rb8/k1IwTTMQsqUqzJryZ+4RDMJiw26+8Q==";
+
+function b64ToBytes(b){var s=atob(b),u=new Uint8Array(s.length);for(var i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u;}
+
+async function decryptVault(pass){
+  var raw = b64ToBytes(VAULT_BLOB.trim());
+  var salt = raw.slice(0,16), iv = raw.slice(16,32), ct = raw.slice(32);
+  var km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), {name:"PBKDF2"}, false, ["deriveKey"]);
+  var key = await crypto.subtle.deriveKey(
+     {name:"PBKDF2", salt:salt, iterations:100000, hash:"SHA-256"},
+     km, {name:"AES-CBC", length:256}, false, ["decrypt"]);
+  var pt = await crypto.subtle.decrypt({name:"AES-CBC", iv:iv}, key, ct);
+  return new TextDecoder().decode(pt);
+}
+
+(async function(){
+  var main = document.getElementById('main');
+  var s = await window._ines.session();
+  if(!s){ location.href='index.html'; return; }
+  document.getElementById('who').textContent = (s.name||'?') + ' - ' + (s.sub||'?');
+  document.getElementById('avatar').textContent = (s.name||'A').charAt(0).toUpperCase();
+
+  if(s.role !== 'admin'){
+    document.getElementById('roleBadge').textContent = s.role || '?';
+    document.getElementById('roleBadge').className = 'badge badge-emp';
+    main.innerHTML =
+      '<div class="deny"><b>&#9940; Acces refuse.</b><br>Cette console est reservee au role <b>admin</b>.'+
+      ' Votre token porte le role <b>'+(s.role||'inconnu')+'</b>.<br><br>'+
+      'Indice : le serveur ne verifie pas vraiment ce token... Et si tu changeais le role toi-meme ? '+
+      'Regarde comment <span class="mono">app.min.js</span> traite l\'algorithme du JWT (<span class="mono">alg</span>).</div>';
+    return;
+  }
+
+  /* --- role admin : PALIER 4 valide --- */
+  main.innerHTML =
+   '<div class="hero"><span class="wave"></span><h2>&#128081; Console d administration RH</h2>'+
+   '<p>Bienvenue '+ (s.name||'admin') +'. Vous avez les pleins pouvoirs... ou presque.</p></div>'+
+
+   '<h2 class="section-title">&#128273; Palier 4 - Acces administrateur obtenu</h2>'+
+   '<p>Tu as force un token <b>admin</b>. Respect. Voici ton flag :</p>'+
+   '<div class="flagbox">'+ (s.gift || '(token admin invalide)') +'</div>'+
+
+   '<h2 class="section-title" style="margin-top:34px">&#128274; Palier 5 - Coffre-fort de paie (chiffre)</h2>'+
+   '<p>Le dernier export de paie est stocke chiffre (AES-256-CBC, cle derivee en PBKDF2). '+
+   'Retrouve la <b>phrase secrete</b> utilisee par l application pour signer/proteger ses donnees, '+
+   'puis dechiffre le coffre.</p>'+
+   '<div class="card vault" style="margin-top:12px">'+
+     '<h3>Export chiffre (base64 : salt | iv | ciphertext)</h3>'+
+     '<textarea readonly>'+VAULT_BLOB+'</textarea>'+
+     '<label for="pp">Phrase secrete</label>'+
+     '<input type="text" id="pp" placeholder="la cle secrete de l application..." class="mono">'+
+     '<button class="btn btn-coral" id="dec">Dechiffrer le coffre</button>'+
+     '<div id="vres" class="msg"></div>'+
+   '</div>';
+
+  document.getElementById('dec').addEventListener('click', async function(){
+    var r = document.getElementById('vres');
+    try{
+      var clear = await decryptVault(document.getElementById('pp').value);
+      if(clear && clear.indexOf('IneCTF{')===0){
+        r.className='msg ok';
+        r.innerHTML='&#127881; Coffre ouvert ! Flag final :<div class="flagbox">'+clear+'</div>';
+      }else{
+        r.className='msg ok'; r.innerHTML='<div class="flagbox">'+clear+'</div>';
+      }
+    }catch(e){
+      r.className='msg err'; r.textContent='Dechiffrement echoue : mauvaise phrase secrete.';
+    }
+  });
+})();
+</script>
+</body>
+</html>

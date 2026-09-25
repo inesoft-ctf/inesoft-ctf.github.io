@@ -1,0 +1,8 @@
+# IneSoft RH - robots.txt
+# Ne pas indexer nos espaces internes SVP
+User-agent: *
+Disallow: /.well-known/hr-config.json
+Disallow: /dashboard.html
+Disallow: /admin.html
+Disallow: /assets/js/
+# rappel interne : l'env de recette expose encore la config demo... a nettoyer (Ines)
