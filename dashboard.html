@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IneSoft RH - Mon espace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230E1116'/><text x='16' y='22' font-size='15' fill='%23C9A96A' text-anchor='middle' font-family='Arial' font-weight='bold'>iS</text></svg>">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="dashboard.html"><span class="logo">iS</span><span>INESOFT<small>Ressources Humaines</small></span></a>
+  <div class="spacer"></div>
+  <span class="who" id="who"></span>
+  <span class="badge badge-emp" id="roleBadge">employee</span>
+  <div class="avatar" id="avatar">D</div>
+  <button class="btn btn-soft" onclick="window._ines.logout();location.href='index.html'">Deconnexion</button>
+</header>
+
+<div class="shell">
+  <nav class="side">
+    <a class="active" href="dashboard.html">Tableau de bord</a>
+    <a href="dashboard.html">Mes conges</a>
+    <a href="dashboard.html">Mes bulletins</a>
+    <a href="dashboard.html">Mon profil</a>
+    <a class="admin" href="admin.html" id="adminLink">Administration</a>
+  </nav>
+  <main class="main">
+    <div class="hero">
+      <span class="wave"></span>
+      <div class="eyebrow">Espace collaborateur</div>
+      <h2>Bonjour <b id="hi">collaborateur</b></h2>
+      <p>Bienvenue sur votre portail Ressources Humaines IneSoft. Voici votre resume du jour.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card"><h3>Solde conges</h3><div class="big"><b>18,5</b><span class="unit"> jours</span></div></div>
+      <div class="card"><h3>RTT restants</h3><div class="big"><b>6</b><span class="unit"> jours</span></div></div>
+      <div class="card"><h3>Notes de frais</h3><div class="big"><b>2</b><span class="unit"> en attente</span></div></div>
+      <div class="card"><h3>Prochaine paie</h3><div class="big"><b>28</b><span class="unit"> aout</span></div></div>
+    </div>
+
+    <h3 class="section-title">Mes derniers bulletins</h3>
+    <table>
+      <thead><tr><th>Periode</th><th>Type</th><th>Net a payer</th><th>Statut</th></tr></thead>
+      <tbody>
+        <tr><td>Juillet 2026</td><td>Salaire</td><td>2 480,00 EUR</td><td><span class="pill pill-ok">Disponible</span></td></tr>
+        <tr><td>Juin 2026</td><td>Salaire</td><td>2 480,00 EUR</td><td><span class="pill pill-ok">Disponible</span></td></tr>
+        <tr><td>Mai 2026</td><td>Salaire + prime</td><td>3 010,00 EUR</td><td><span class="pill pill-ok">Disponible</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="notice" style="margin-top:22px">
+      L'espace <b>Administration</b> est reserve aux profils <b>admin</b>. Votre role actuel :
+      <b id="roleTxt">employee</b>. Acces refuse pour le moment.
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.min.js"></script>
+<script>
+(async function(){
+  var s = await window._ines.session();
+  if(!s){ location.href='index.html'; return; }
+  document.getElementById('who').textContent = s.name + ' - ' + s.sub;
+  document.getElementById('hi').textContent = s.name;
+  document.getElementById('roleBadge').textContent = s.role;
+  document.getElementById('roleTxt').textContent = s.role;
+  document.getElementById('avatar').textContent = (s.name||'D').charAt(0).toUpperCase();
+})();
+</script>
+</body>
+</html>

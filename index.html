@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IneSoft RH - Connexion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230E1116'/><text x='16' y='22' font-size='15' fill='%23C9A96A' text-anchor='middle' font-family='Arial' font-weight='bold'>iS</text></svg>">
+<!-- inesoft-rh portal build 2.6.1 (staging)
+     sig: VmFyRmJzZy1TeW50LVdiYW5ndW5hYQ==
+     ref: cGJhc3Z0IHFyIGVycHJnZ3I6IC9uZmZyZ2YvcW5nbi91ZS5vbnB4aGMud2ZiYQ== -->
+</head>
+<body>
+<div class="login-split">
+
+  <section class="brand-panel">
+    <div class="bp-logo">
+      <div class="monogram">iS</div>
+      <div><span class="word">INESOFT</span><span class="tag">AUTOMOBILE</span></div>
+    </div>
+
+    <div class="gold-rule"></div>
+    <h1>Portail<br><b>Ressources Humaines</b></h1>
+    <p class="lead">L'excellence du Groupe IneSoft, au service de celles et ceux qui la font vivre.</p>
+
+    <div class="car">
+      <svg width="320" height="112" viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="16" y1="101" x2="324" y2="101" stroke="#C9A96A" stroke-opacity=".28"/>
+        <path d="M20,99 L34,98 C38,85 50,80 66,79 L92,78 C100,60 120,55 146,55 L196,55 C216,55 226,63 238,75 L292,79 C305,80 313,86 320,99" fill="none" stroke="#C9A96A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="90" r="2.4" fill="#E4CE9E"/><circle cx="316" cy="88" r="2.2" fill="#C9A96A"/>
+        <circle cx="74" cy="99" r="18" fill="#0B0E13" stroke="#C9A96A" stroke-width="2"/><circle cx="74" cy="99" r="6" fill="none" stroke="#C9A96A" stroke-width="1.4"/>
+        <circle cx="270" cy="99" r="18" fill="#0B0E13" stroke="#C9A96A" stroke-width="2"/><circle cx="270" cy="99" r="6" fill="none" stroke="#C9A96A" stroke-width="1.4"/>
+      </svg>
+    </div>
+
+    <div class="bp-foot"><span>Confidentiel</span><span class="dot"></span><span>Securise</span><span class="dot"></span><span>Groupe IneSoft</span></div>
+  </section>
+
+  <section class="form-panel">
+    <div class="form-card">
+      <div class="eyebrow">Espace collaborateur</div>
+      <h2>Connexion</h2>
+      <p class="sub">Accedez a votre espace ressources humaines.</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="email">Adresse e-mail professionnelle</label>
+        <input type="email" id="email" placeholder="prenom.nom@inesoft.io" required>
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required>
+        <button class="btn" type="submit">Se connecter</button>
+      </form>
+      <div id="msg" class="msg"></div>
+      <p class="foothint">IneSoft Automobile &#183; Support RH : rh@inesoft.io</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="assets/js/app.min.js"></script>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var m = document.getElementById('msg');
+    var email = document.getElementById('email').value.trim().toLowerCase();
+    var pass  = document.getElementById('password').value;
+    try{
+      var ok = await window._ines.authenticate(email, pass);
+      if(ok){
+        m.className='msg ok'; m.textContent='Connexion reussie, redirection...';
+        setTimeout(function(){ location.href='dashboard.html'; }, 600);
+      }else{
+        m.className='msg err'; m.textContent='Identifiants invalides. Verifiez votre e-mail et mot de passe.';
+      }
+    }catch(err){
+      m.className='msg err'; m.textContent='Erreur d authentification.';
+    }
+  });
+</script>
+</body>
+</html>

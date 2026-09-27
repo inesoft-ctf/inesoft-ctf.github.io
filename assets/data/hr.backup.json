@@ -1,0 +1,7 @@
+{
+  "_note": "sauvegarde automatique de configuration - environnement de recette. Ne pas laisser en production.",
+  "app": "inesoft-rh",
+  "env": "staging",
+  "cipher": "xor puis base64, cle = nom de l'app en minuscules",
+  "data": "EkwAHg4PGEtURxcKCxtHHA0zBggRGgEDB0EPG0tCRwMOFQceARcXTVxWKwcAHRkDGhwLV0NdUFc7JkdfTQAYCAlHSU0vGgw9ChUbSzIFDwJeJQMGDAMcURI="
+}
